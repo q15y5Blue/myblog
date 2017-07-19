@@ -2,9 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Blog</title>
+    <title>主页</title>
 </head>
 <body>
-<h1>{{hello }}</h1>
+<h1>文章列表</h1>
+<table>
+    <tr>
+        <td>id</td>
+        <td>标题</td>
+    </tr>
+    {% for article in articles %}
+    <tr>
+        <td>{{ article.id }}</td>
+        <td><a href="{% url 'blog:article_page' article.id %}">{{ article.title }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
 </body>
 </html>
