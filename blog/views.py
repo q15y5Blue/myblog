@@ -21,9 +21,7 @@ def edit_page(request, article_id):
 
 
 def edit_action(request):
-    title= request.POST.get('title','TITLE')
-    content = request.POST.get('content','CONTENT')
-    models.Article.objects.create(title=title,content=content)
-    # return index(request)
-    articles = models.Article.objects.all()
-    return render(request, 'index.html', {'articles': articles})
+    title = request.POST.get('title', 'TITLE')
+    content = request.POST.get('content', 'CONTENT')
+    models.Article.objects.create(title=title, content=content)
+    return index(request)

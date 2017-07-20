@@ -31,13 +31,14 @@ ALLOWED_HOSTS = []
 # Application definition
 # 加载按照先后顺序加载
 INSTALLED_APPS = [
-    #'django.contrib.admin',
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
+    'xd',
 ]
 
 MIDDLEWARE = [
@@ -85,10 +86,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'qiuyus',
-        'USER':'root',
-        'PASSWORD':'qiuyu',
-        'HOST':'localhost',
-        'PORT':'3306',
+        'USER': 'root',
+        'PASSWORD': 'qiuyu',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
