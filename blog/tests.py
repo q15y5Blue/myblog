@@ -1,3 +1,5 @@
 from django.test import TestCase
+from myblog.blog.models import Persons
 
-# Create your tests here.
+p = Persons()
+print(p)

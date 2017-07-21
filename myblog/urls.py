@@ -18,6 +18,6 @@ from django.contrib import admin
 
 urlpatterns = [
     # url(r'^admin/', admin.site.urls),
-    url(r'^blog/',   include('blog.urls', namespace='blog')),
-    url(r'^travel/', include('xd.urls', namespace='travel'))
+    # url(r'^blog/',   include('blog.urls', namespace='blog')), 屏蔽掉blog的路径
+    url(r'^travel/', include('xd.urls', namespace='travel')),
 ]

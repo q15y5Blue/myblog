@@ -90,6 +90,10 @@ DATABASES = {
         'PASSWORD': 'qiuyu',
         'HOST': 'localhost',
         'PORT': '3306',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+            'charset': 'utf8mb4',
+        }
     }
 }
 
@@ -127,8 +131,16 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# 制定Static文件目录
+STATICFILES_DIRS =(
+    ("css", os.path.join(STATIC_ROOT, 'css')),
+    ("js", os.path.join(STATIC_ROOT, 'js')),
+    ("images", os.path.join(STATIC_ROOT, 'images')),
+    ("fonts", os.path.join(STATIC_ROOT, 'fonts'))
+)
