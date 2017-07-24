@@ -5,6 +5,7 @@ from django.db import models
 #     title = models.CharField(max_length=32, default='Title')
 #     content = models.TextField(null=True)
 
+
 # http://travel.qunar.com/space/158928832@qunar
 # http://travel.qunar.com/space/follow/list?userId=158928832&page=1
 class Persons(models.Model):
@@ -19,7 +20,7 @@ class Persons(models.Model):
         return self.followings.split(',')
     def setListToFollowings(self,list):
         self.describe = ','.join(list)
-    def getFans(self):
+    def getFansToList(self):
         return self.fans.split(',')
     def setListToFans(self,list):
         self.fans= ','.join(list)
