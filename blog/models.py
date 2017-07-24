@@ -14,6 +14,8 @@ class Persons(models.Model):
     describe = models.CharField(max_length=1000,default='user_describe')
     followings = models.TextField()
     fans = models.TextField()
+    followings_number = models.IntegerField(max_length=16,default='user_followings_numbers')
+    fans_number = models.IntegerField(max_length=16,default='user_fans_numbers')
     # 151310985,158928832,5931438
 
     def getFollowingsToList(self):
@@ -24,4 +26,9 @@ class Persons(models.Model):
         return self.fans.split(',')
     def setListToFans(self,list):
         self.fans= ','.join(list)
-
+    # 获取关注的人数
+    def followings_number(self):
+        return len(self.getFollowingsToList())
+    # 获取粉丝人数
+    def fans_number(self):
+        return len(self.getFansToList())

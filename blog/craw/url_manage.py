@@ -24,5 +24,6 @@ class UrlManage:
     # url list added
     def add_new_url_list(self,url_list):
         if len(url_list) == 0 or url_list is None:
-            for url in url_list:
-                self.add_new_url(url)
+            return
+        for url in url_list:
+            self.add_new_url(url)
