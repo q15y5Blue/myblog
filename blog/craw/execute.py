@@ -21,7 +21,8 @@ class Execute:
             new_url = self.urlObj.get_new_url()
             # html_data = self.downloaderObj.download_html_by_url(new_url)
             # url_list = self.parserObj.parse_data_followings(html_data)
-            url_list, url_data = self.parserObj.parse_data_followings(new_url)
+            url_list, url_data = self.parserObj.parse_data_followings(new_url,1)
+
 if __name__ == '__main__':
     root_url = """http://travel.qunar.com/space/follow/list?userId=158928832@qunar"""
     spider = Execute()
