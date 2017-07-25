@@ -5,7 +5,6 @@ from blog.craw.parser import Parser
 from blog.craw.daoMode import daoMode
 
 
-
 class Execute:
     def __init__(self):
         self.urlObj = UrlManage()
@@ -19,9 +18,7 @@ class Execute:
         count = 0
         while (self.urlObj.has_new_url()):
             new_url = self.urlObj.get_new_url()
-            # html_data = self.downloaderObj.download_html_by_url(new_url)
-            # url_list = self.parserObj.parse_data_followings(html_data)
-            url_list, url_data = self.parserObj.parse_data_followings(new_url)
+            self.parserObj.parse_data_followings(new_url)
 
 if __name__ == '__main__':
     root_url = """http://travel.qunar.com/space/follow/list?userId=158928832@qunar"""
