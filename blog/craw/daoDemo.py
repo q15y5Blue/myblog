@@ -1,3 +1,3 @@
 # coding:utf8
-class daoMode:
+class daoDemo:
     pass

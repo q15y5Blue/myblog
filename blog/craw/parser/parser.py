@@ -2,13 +2,13 @@
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from blog.models import Persons
-from .downloader import Downloader
+from blog.craw.downloader import Downloader
 import re
 
 
 class Parser:
     # 公用解析方法,使用BeautifulSoup模块，返回soup对象
-    def parse_url(self,url):
+    def parse_url(self, url):
         dt = Downloader()
         html_data = dt.download_html_by_url(url)
         soup = BeautifulSoup(html_data, "html.parser")
@@ -38,9 +38,8 @@ class Parser:
         print(per.name,"粉丝人数：", per.fans_number)
 
         # identity
-        t = re.search('(?<=userId\=)(\d+)', url).group(0)
+        t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
-
         return per
 
 
