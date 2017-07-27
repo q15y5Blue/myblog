@@ -38,19 +38,22 @@ class Persons(models.Model):
 
 # 游记   一游记多标题  一标题多内容
 class Travels(models.Model):
-    travel_create_data = models.DateField(default='travel_create_data')   # 创建日期
-    travel_view_number = models.IntegerField(default='travel_view_number')
-    travel_commended = models.BooleanField(default='travel_commend')
-    travel_when = models.DateField(default='travel_date')
-    travel_how_long = models.IntegerField(default='travel_spend_time')
-    travel_how_much = models.IntegerField(default='travel_cost')
-    travel_who = models.CharField(max_length=30, default='travel_who')
-    travel_how = models.CharField(max_length=30, default='travel_how')
+    travel_id = models.IntegerField(default='travel_identify')            # id
+    travel_title = models.CharField(max_length=1000, default='travel_title')     # 旅行标题
+    travel_create_date = models.DateField(default='travel_create_date')   # 创建日期
+    travel_view_number = models.IntegerField(default='travel_view_number') # 浏览人数
+    travel_commended = models.BooleanField(default='travel_commend')        # 推荐欣赏与否
+    travel_when = models.DateField(default='travel_date')                   # 啥时候去的
+    travel_how_long = models.IntegerField(default='travel_spend_time')      # 去了多久
+    travel_how_much = models.IntegerField(default='travel_cost')            # 一个人花多少钱
+    travel_who = models.CharField(max_length=30, default='travel_who')      # 和谁去的
+    travel_how = models.CharField(max_length=30, default='travel_how')      # 咋去的
     travel_user = models.ForeignKey(Persons, on_delete=models.CASCADE)  # 多对一 多个游记对一个人
 
 
 # 游记下的标题分类
 class TravelsCatalog(models.Model):
+    catalog_id = models.IntegerField(default='travel_catalog_identity')
     catalog_title = models.CharField(max_length=32, default='travel_catalog_title')
 
 

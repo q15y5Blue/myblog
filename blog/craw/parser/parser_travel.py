@@ -1,22 +1,88 @@
 # coding:utf8
-# 解析travel .ddddddddd
 # url = http://travel.qunar.com/space/158928832@qunar
 from blog.craw.downloader import Downloader
 from bs4 import BeautifulSoup
+from blog.models import Travels
+from blog.models import TravelsCatalog
+from blog.models import TravelsCatalogContent
+from datetime import datetime
+import re
 
+
+
+def get_beautifulsoup_obj(url):
+    dt = Downloader()
+    html_data = dt.download_html_by_url(url)
+    soup = BeautifulSoup(html_data, "html.parser")
+    return soup
 
 # http://travel.qunar.com/space/notes?page=1&pageSize=57&userId=158928832
-def get_travel_by_url(url):
+def get_travel_urls_by_one_person(url):
     dt = Downloader()
     js = dt.download_json_by_url(url)
     count = js['data']['count']
+    # 获取当前用户下所有列表
+    if count > 1000:
+        url = url.replace('pageSize=1', 'pageSize=%s' % count)
+        js = dt.download_json_by_url(url)
+    list_data = js['data']  # 所有list
+    url_list = re.findall('(?<=<a href=\"//).*?(?=\")', list_data['html'])
+    return url_list
 
-    url_new = r'http://travel.qunar.com/space/notes?page=1&pageSize=%s&userId=158928832' % count
-    jso = dt.download_json_by_url(url_new)
-    list_data = jso['data']
-    print(list_data)
+def get_travel_by_urls(url_list):
+    for url in url_list:
+        travel = Travels()
+
+        soup = get_beautifulsoup_obj("http://"+url)
+        travel.travel_title = soup.title.string                       # title
+
+        test= soup.find('li', class_='head').prettify()
+        user_id = re.search('(?<=space/)(\d+)', test).group(0)
+        travel.travel_user_id = int(user_id)
+
+        test = re.search('\d{4}/\d{2}/\d{2}', soup.find('li', class_='date').prettify()).group(0).__str__()
+        travel.travel_create_date = datetime.strptime(test, '%Y/%m/%d').date()  # 创建日期get
+
+        test = soup.find('span', class_='view_count').string
+        travel.travel_view_number = int(test)                           # 浏览数量get
+
+        test = soup.find('li', class_='flag')
+        if test is not None:
+            travel.travel_commended = True
+
+        travel_ul = soup.find('ul', class_='foreword_list')         # 获取travel 信息
+        when_li = travel_ul.find('li', class_='when').prettify()        # 获取travel时间
+        test = re.search('\d{4}/\d{2}/\d{2}', when_li).group(0).__str__()
+        dt = datetime.strptime(test, '%Y/%m/%d')
+        travel.travel_when = dt.date()
+
+        howlong_li = travel_ul.find('li', class_='howlong')
+        test = howlong_li.find('span', class_='data')
+        travel.travel_how_long = int(test.string)                   # 去了多久
+
+        howmuch_li = travel_ul.find('li', class_='howmuch')
+        test = howmuch_li.find('span', class_='data')
+        travel.travel_how_much = int(test.string)                   # 花了多少钱
+
+        who_li = travel_ul.find('li', class_='who')
+        test = who_li.find('span', class_='data')
+        travel.travel_who = test.string                             # 和谁一起去的
+
+        how_li = travel_ul.find('li', class_='how')
+        test = how_li.find('span', class_='data')
+        print(test.string)
+        travel.travel_how = test.string.split('\xa0')      # 咋去的
+        print(travel.travel_how)
+        print("谁", travel.travel_who)
+        print("钱", travel.travel_how_much)
+        print("长", travel.travel_how_long)
+        print("啥时候", travel.travel_when)
+        # get travel
+        break
+
 
 # http://travel.qunar.com/space/notes?page=1&pageSize=57&userId=158928832
 if __name__ == '__main__':
-    url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1&userId=158928832'
-    get_travel_by_url(url)
+    url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1000&userId=158928832'
+    list = get_travel_urls_by_one_person(url)
+    get_travel_by_urls(list)
