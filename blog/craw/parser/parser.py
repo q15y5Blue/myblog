@@ -3,6 +3,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 from blog.models import Persons
 from blog.craw.downloader import Downloader
+from blog.craw.parser.parser_travel import get_travel_by_urls,get_travel_urls_by_one_person
 import re
 
 
@@ -40,12 +41,16 @@ class Parser:
         fans_list = self.get_relation_data(url, fans=1)
         per.set_fans_list_to_str(fans_list)
         per.fans_number = per.set_fans_number()
-        print(per.name,"粉丝人数：", per.fans_number)
+        print(per.name, "粉丝人数：", per.fans_number)
 
         # identity
         t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
-        return per
+        per.save()
+
+        new_url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1000&userId=%s' % per.identify
+        url_list = get_travel_urls_by_one_person(new_url)
+        get_travel_by_urls(url_list)
 
     # 循环获取分页关注的人数
     # http://travel.qunar.com/space/follow/list?userId=158928832@qunar&page=4
@@ -55,7 +60,7 @@ class Parser:
         rs_list = []
         li_list = []
         for pageNo in range(1, 10000):
-            new_url = url+"&page=%s"%(pageNo)
+            new_url = url+"&page=%s" % pageNo
             pageNo += 1
             soup = self.parse_url(new_url)
             ul = soup.find('ul', class_='fans-list')
