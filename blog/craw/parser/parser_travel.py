@@ -31,6 +31,7 @@ def get_travel_urls_by_one_person(url):
 
 def get_travel_by_urls(url_list):
     for url in url_list:
+        print(url)
         travel = Travels()
 
         soup = get_beautifulsoup_obj("http://"+url)
@@ -77,9 +78,26 @@ def get_travel_by_urls(url_list):
         print("钱", travel.travel_how_much)
         print("长", travel.travel_how_long)
         print("啥时候", travel.travel_when)
+        # print(travel.travel_user)
         # get travel
+        #travel id
+        test =re.search('\d+', url).group(0)
+        print(test)
+        travel.travel_id = int(test)
+
+        test = soup.find('div', class_='e_main').prettify() # 简单粗暴
+        travel.travel_text = test
+        travel.save()
         break
 
+# 放弃了
+def parser_catalog(soup, travel_id):
+    cata_title = soup.find_all('h4', class_='period_hd')
+    for cata in cata_title:
+        travel_cata = TravelsCatalog()
+        travel_cata.catalog_title = cata.find('div', class_='text').string
+        travel_cata.catalog_travel_id = travel_id
+        travel_cata.catalog_identify = travel_id
 
 # http://travel.qunar.com/space/notes?page=1&pageSize=57&userId=158928832
 if __name__ == '__main__':

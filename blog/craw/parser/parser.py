@@ -25,6 +25,11 @@ class Parser:
         per.name = soup.h3.span['title']
         per.describe = soup.find("span", class_='view-text').text
 
+        # portrait 头像get
+        str = soup.find('dt', class_='pic').prettify()
+        portrait = re.search('(?<=src=\").*?(?=\")', str).group(0)
+        per.portrait = portrait
+
         # 获取关注的人数
         follow_list = self.get_relation_data(url, 0)
         per.set_following_list_to_str(follow_list)
@@ -41,7 +46,6 @@ class Parser:
         t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
         return per
-
 
     # 循环获取分页关注的人数
     # http://travel.qunar.com/space/follow/list?userId=158928832@qunar&page=4
