@@ -36,6 +36,9 @@ class Persons(models.Model):
     def set_fans_number(self):
         return len(self.get_fans_str_to_list)
 
+    def __str__(self):
+        return self.name
+
 
 # 游记   一游记多标题  一标题多内容
 class Travels(models.Model):

@@ -20,11 +20,14 @@ class Parser:
     def parse_data_followings(self, url):
         soup = self.parse_url(url)
         page = soup.find('ul', class_='fans-list')
+        if page is None:
+            return None
         li = page.find_all('li')
 
         per = Persons()
         per.name = soup.h3.span['title']
-        per.describe = soup.find("span", class_='view-text').text
+        if soup.find("span", class_='view-text') is not None:
+            per.describe = soup.find("span", class_='view-text').text
 
         # portrait 头像get
         str = soup.find('dt', class_='pic').prettify()
@@ -46,11 +49,15 @@ class Parser:
         # identity
         t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
-        per.save()
-
-        new_url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1000&userId=%s' % per.identify
-        url_list = get_travel_urls_by_one_person(new_url)
-        get_travel_by_urls(url_list)
+        try :
+            Persons.objects.get(pk=per.identify)
+            return per
+        except Persons.DoesNotExist:
+            per.save()
+            new_url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1000&userId=%s' % per.identify
+            url_list = get_travel_urls_by_one_person(new_url)
+            get_travel_by_urls(url_list)
+            return per
 
     # 循环获取分页关注的人数
     # http://travel.qunar.com/space/follow/list?userId=158928832@qunar&page=4

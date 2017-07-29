@@ -22,8 +22,10 @@ class UrlManage:
             self.newUrls.add(url)
 
     # url list added
-    def add_new_url_list(self,url_list):
+    def add_new_url_list(self, url_list):
         if len(url_list) == 0 or url_list is None:
             return
         for url in url_list:
-            self.add_new_url(url)
+            # http://travel.qunar.com/space/follow/list?userId=158928832
+            strs = "http://travel.qunar.com/space/follow/list?userId=%s" % url
+            self.add_new_url(strs)

@@ -28,7 +28,7 @@ def get_travel_urls_by_one_person(url):
 
 def get_travel_by_urls(url_list):
     for url in url_list:
-        print(url)
+        print("获取游记:", url)
         travel = Travels()
 
         soup = get_beautifulsoup_obj("http://"+url)
@@ -47,7 +47,6 @@ def get_travel_by_urls(url_list):
             t = test.replace('万', '')
             test = float(t) * 10000
         travel.travel_view_number = int(test)                           # 浏览数量get
-
 
         test = soup.find('li', class_='flag')
         if test is not None:
@@ -86,8 +85,8 @@ def get_travel_by_urls(url_list):
         # print(travel.travel_user)
         # get travel
         # travel id
-        test =re.search('\d+', url).group(0)
-        print(test)
+
+        test = re.search('\d+', url).group(0)
         travel.travel_identify = int(test)
 
         test = soup.find('div', class_='e_main').prettify() # 简单粗暴
