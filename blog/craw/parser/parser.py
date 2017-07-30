@@ -20,6 +20,7 @@ class Parser:
     def parse_data_followings(self, url):
         soup = self.parse_url(url)
         page = soup.find('ul', class_='fans-list')
+        print("正在获取个人信息…………")
         if page is None:
             return None
         li = page.find_all('li')
@@ -38,21 +39,23 @@ class Parser:
         follow_list = self.get_relation_data(url, 0)
         per.set_following_list_to_str(follow_list)
         per.followings_number = per.set_followings_number()
-        print(per.name, "关注的人数：", per.followings_number)
+        print(per.name, "所关注的人数：", per.followings_number)
 
         # 获取粉丝信息
         fans_list = self.get_relation_data(url, fans=1)
         per.set_fans_list_to_str(fans_list)
         per.fans_number = per.set_fans_number()
-        print(per.name, "粉丝人数：", per.fans_number)
+        print(per.name, "的粉丝人数：", per.fans_number)
 
         # identity
         t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
-        try :
+        try:
+            print("这个人数据库中已经存在了")
             Persons.objects.get(pk=per.identify)
             return per
         except Persons.DoesNotExist:
+            print("这个人还未收录")
             per.save()
             new_url = r'http://travel.qunar.com/space/notes?page=1&pageSize=1000&userId=%s' % per.identify
             url_list = get_travel_urls_by_one_person(new_url)
@@ -83,5 +86,3 @@ class Parser:
                 rs_list.append(li['data-id'])
 
         return rs_list
-
-

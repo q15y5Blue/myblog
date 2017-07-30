@@ -1,4 +1,5 @@
 # coding:utf8
+# 获取游记的
 # url = http://travel.qunar.com/space/158928832@qunar
 from blog.craw.downloader import Downloader
 from bs4 import BeautifulSoup
@@ -27,6 +28,7 @@ def get_travel_urls_by_one_person(url):
 
 
 def get_travel_by_urls(url_list):
+    print("开始获取任务游记")
     for url in url_list:
         print("获取游记:", url)
         travel = Travels()
@@ -77,6 +79,8 @@ def get_travel_by_urls(url_list):
         if who_li is not None:
             test = who_li.find('span', class_='data')
             travel.travel_who = test.string                             # 和谁一起去的
+        else:
+            travel.travel_who = ""
 
         how_li = travel_ul.find('li', class_='how')
         if how_li is not None:
