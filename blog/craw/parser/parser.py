@@ -1,10 +1,11 @@
 # coding:utf8
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
-from blog.models import Persons
-from blog.craw.downloader import Downloader
-from blog.craw.parser.parser_travel import get_travel_by_urls,get_travel_urls_by_one_person
 import re
+
+from bs4 import BeautifulSoup
+
+from blog.craw.download.downloader import Downloader
+from blog.craw.parser.parser_travel import get_travel_by_urls, get_travel_urls_by_one_person
+from blog.models import Persons
 
 
 class Parser:

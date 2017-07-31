@@ -1,8 +1,8 @@
 # coding:utf8
-from blog.craw.url_manage import UrlManage
-from blog.craw.downloader import Downloader
+from blog.craw.download.downloader import Downloader
 from blog.craw.parser.parser import Parser
-import threading
+from blog.craw.url_manage import UrlManage
+
 
 class Execute:
     def __init__(self):

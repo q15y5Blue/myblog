@@ -1,6 +1,7 @@
 # coding : utf8
 import urllib.request as urllib2
 import requests
+from .user_agent import user_agent
 
 class Downloader:
 
@@ -40,7 +41,20 @@ class Downloader:
         else:
             return None
 
-# if __name__ == '__main__':
-#     url = "http://travel.qunar.com/space/follow/list?userId=158928832"
-#     request = requests.get(url)
-#     print(request.text)
+if __name__ == '__main__':
+    url = "http://travel.qunar.com/space/follow/list?userId=158928832"
+    proxie = {
+        'http': 'http://160.16.94.228:80'
+    }
+    header = {
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate",
+        "Accept-Language": "zh-CN,zh;q=0.8",
+        "Connection": "keep-alive",
+        "Host": "travel.qunar.com",
+        "Upgrade-Insecure-Requests:": 1,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
+    }
+    request = requests.get(url,header)
+    print(request.text)
+    print(request.headers)

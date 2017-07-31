@@ -1,11 +1,14 @@
 # coding:utf8
 # 获取游记的
 # url = http://travel.qunar.com/space/158928832@qunar
-from blog.craw.downloader import Downloader
-from bs4 import BeautifulSoup
-from blog.models import Travels
-from datetime import datetime
 import re
+from datetime import datetime
+
+from bs4 import BeautifulSoup
+
+from blog.craw.download.downloader import Downloader
+from blog.models import Travels
+
 
 def get_beautifulsoup_obj(url):
     dt = Downloader()
