@@ -1,4 +1,9 @@
 # coding:utf8
+import random
+
+
+def get_user_agent():
+    return user_agent.__getitem__(random.randint(0, len(user_agent)-1))
 user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36",
               "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_6_8; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
               "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50",
@@ -24,3 +29,6 @@ user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, l
               "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)",
               "UCWEB7.0.2.37/28/999",
               ]
+
+
+proxies = ['160.16.94.228:80','114.179.245.22:80','104.145.72.27:45454', '87.100.167.63:45454']
