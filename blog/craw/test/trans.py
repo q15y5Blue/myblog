@@ -33,4 +33,4 @@ for li in table_list:
     for index_t in range(1, lengs):
         param = re.search('(\s\s)\w*', li[index_t]).group(0)
         final_str = table_names.strip()+'.'+param.strip()
-        file_line_list.
+        # file_line_list.
