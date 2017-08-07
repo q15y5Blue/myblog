@@ -47,7 +47,7 @@ if __name__ == '__main__':
     url = "http://travel.qunar.com/space/follow/list?userId=158928832"
     proxie = {
         # 'http': 'http://160.16.94.228:80',
-        'http': '160.16.94.228:80',
+        'http': '210.35.171.4:8080',
     }
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",

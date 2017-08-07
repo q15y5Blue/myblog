@@ -2,6 +2,7 @@
 import random
 
 
+
 def get_user_agent():
     return user_agent.__getitem__(random.randint(0, len(user_agent)-1))
 
@@ -30,6 +31,15 @@ user_agent = ["Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, l
               "Mozilla/5.0 (compatible; MSIE 9.0; Windows Phone OS 7.5; Trident/5.0; IEMobile/9.0; HTC; Titan)",
               "UCWEB7.0.2.37/28/999",
               ]
+
+headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept-Language": "zh-CN,zh;q=0.8",
+    "Connection": "keep-alive",
+    "Host": "www.goubanjia.com",
+    "User-Agent": get_user_agent(),
+}
 
 
 proxies = ['160.16.94.228:80','114.179.245.22:80','104.145.72.27:45454', '87.100.167.63:45454']
