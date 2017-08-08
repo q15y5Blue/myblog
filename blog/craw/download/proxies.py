@@ -1,6 +1,7 @@
 # coding:utf8
 import requests
 from bs4 import BeautifulSoup
+from bs4.element import Tag
 from blog.craw.download.constants import headers
 
 
@@ -14,11 +15,17 @@ def parse_html(url):
     content = t.text
     if content is not None:
         soup = BeautifulSoup(content, "html.parser")
-        tds = soup.find_all('td', 'ip')
-        for ip_str in tds:
-            print(ip_str)
-            real_ip = ip_str.find('span', 'display:inline-block;')
-        print(tds)
-
+        td_list = soup.find_all('td', 'ip')
+        for td_li in td_list:
+            for li in td_li:
+                new_tag = BeautifulSoup('')
+                if type(li) == Tag:
+                    if li.prettify().__contains__('none') is False:
+                        new_tag.append(li)
+                else:
+                    if li.__contains__('none') is False:
+                        new_tag.append(li)
+                print(new_tag.text)
+            # print(td_li.prettify())
 if __name__ == '__main__':
     parse_html(r'http://www.goubanjia.com/free/index.shtml')
