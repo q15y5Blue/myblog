@@ -85,5 +85,8 @@ class Parser:
         for lis in li_list:
             for li in lis:
                 rs_list.append(li['data-id'])
-
         return rs_list
+
+if __name__ == '__main__':
+    par = Parser()
+    par.parse_data_followings('http://travel.qunar.com/space/follow/list?userId=158928832@qunar?page=1')

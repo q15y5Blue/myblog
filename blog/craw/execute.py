@@ -18,7 +18,6 @@ class Execute:
         while (self.urlObj.has_new_url()):
             count += 1
             new_url = self.urlObj.get_new_url()
-
             per = self.parserObj.parse_data_followings(new_url)   # 获取个人信息
             # AttributeError: 'NoneType' object has no attribute 'get_following_str_to_list'
             # get a question 有的None url 会添加到这里

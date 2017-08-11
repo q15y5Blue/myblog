@@ -1,14 +1,17 @@
 # coding : utf8
-import urllib.request as urllib2
 import requests
-from blog.craw.download.constants import get_user_agent
+import random
 
+
+from blog.craw.download.constants import
+
+from blog.craw.download.constants import headers
 
 class Downloader:
-
     # using
+
     def download_html_by_url(self, url):
-        return self.dowload_using_requests(url)
+        return self.download_using_requests(url)
 
     # using
     def download_json_by_url(self, url):
@@ -18,46 +21,52 @@ class Downloader:
         else:
             return None
 
-    # # drop
-    # def download_using_urllib(self, url ):
-    #     request = urllib2.Request(url)
-    #     request.add_header("user-agent", "Mozilla/5.0")
-    #     response = urllib2.urlopen(request)
-    #     if (response.getcode() == 200):
-    #         return response.read().decode('utf-8')
-    #     else:
-    #         return None
-
-    def dowload_using_requests(self, url):
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.8",
-            "Connection": "keep-alive",
-            "Host": "travel.qunar.com",
-            "User-Agent": get_user_agent(),
+    # url 是指要获取网页的url
+    # http://travel.qunar.com/space/follow/list?userId=158928832
+    def download_using_requests(self, url):
+        # proxies_url = 'http://www.goubanjia.com/free/index.shtml'
+        # proxies_list = get_proxies_ip(proxies_url)
+        proxies_list = get_file_proxies()
+        # 使用代理连接
+        proxies_http = {
+            'http': proxies_list.__getitem__(random.randint(0, len(proxies_list) - 1))
         }
-        req = requests.get(url, headers)
-        if req.status_code == 200:
-            return requests.get(url, headers).text
+        # 使用代理连接
+        proxies_https = {
+            'https': proxies_list.__getitem__(random.randint(0, len(proxies_list) - 1))
+        }
+        try:
+            request = requests.get(url, headers=headers, proxies=proxies_http)  # , proxies=proxies
+        except requests.exceptions.ProxyError:
+            request = requests.get(url, headers=headers, proxies=proxies_https)  # , proxies=proxies
+        if request.status_code == 200:
+            print(request.headers)
+            return request.text
         else:
             return None
 
 if __name__ == '__main__':
-    url = "http://travel.qunar.com/space/follow/list?userId=158928832"
-    proxie = {
-        # 'http': 'http://160.16.94.228:80',
-        'http': '210.35.171.4:8080',
+    url = "http://travel.qunar.com/space/follow/list?userId=158928832" # 待连接的url
+    proxies_url = 'http://www.goubanjia.com/free/index.shtml' # 代理url
+    proxies_list = get_file_proxies()
+    proxies_http = {
+        'http': proxies_list.__getitem__(random.randint(0, len(proxies_list)-1))
     }
-    headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-CN,zh;q=0.8",
-        "Connection": "keep-alive",
-        "Host": "travel.qunar.com",
-        "User-Agent": get_user_agent(),
+    proxies_https = {
+        'https': proxies_list.__getitem__(random.randint(0, len(proxies_list) - 1))
     }
+    headers = headers
+    try:
+        request = requests.get(url, headers=headers, proxies=proxies_http) # , proxies=proxies
+        print(request.status_code)
+        print(request.text)
+    except ConnectionError:
+        pass
 
-    request = requests.get(url, headers=headers, proxies=proxie)
-    print(request.status_code)
-    print(request.text)
+
+
+# if __name__ == '__main__':
+#     url = r'http://travel.qunar.com/space/follow/list?userId=158928832'
+#     down = Downloader()
+#     html = down.download_html_by_url(url)
+#     print(html)

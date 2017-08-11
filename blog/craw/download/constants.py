@@ -1,7 +1,6 @@
 # coding:utf8
 import random
-
-
+from blog.craw.download import proxies_list
 
 def get_user_agent():
     return user_agent.__getitem__(random.randint(0, len(user_agent)-1))
@@ -40,6 +39,13 @@ headers = {
     "Host": "www.goubanjia.com",
     "User-Agent": get_user_agent(),
 }
+def get_file_proxies():
+    file = open(r'C:\Users\admin\myblog\blog\craw\download\proxies_list.py', 'r')
+    proxies_li = file.read()
+    print(proxies_li.split())
+    file.close()
+    return proxies_li
 
-
-proxies = ['160.16.94.228:80','114.179.245.22:80','104.145.72.27:45454', '87.100.167.63:45454']
+if __name__ == '__main__':
+    print(type(get_file_proxies()))
+    print(get_file_proxies())
