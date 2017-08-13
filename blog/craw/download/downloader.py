@@ -3,7 +3,7 @@ import requests
 import random
 
 
-from blog.craw.download.constants import
+from blog.craw.download.constants import get_file_proxies
 
 from blog.craw.download.constants import headers
 

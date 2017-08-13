@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 from bs4.element import Tag
 import time
 from blog.craw.download.constants import headers
-
+import json
+import socket
 
 # url =http://www.goubanjia.com/free/index.shtml
 def get_proxies():
@@ -35,8 +36,38 @@ def get_proxies_ip(url):
                     list_new.append(li)
             final_ip.append(''.join(list_new))
         time.sleep(1)
-        print(final_ip)
+        print('初始ip_list 长度:', len(final_ip))
+        final_ip = get_ping(ip_list=final_ip)
+        print('处理过后的ip_list 长度:', len(final_ip))
+
+        json_obj = json.dumps(final_ip)
+        print('json', json_obj)
+        file = open('./proxies_list.json', 'w+')
+        file.write(json_obj)
+        file.close()
         return final_ip
+
+def get_ping(ip_list):
+
+    for ip in ip_list:
+        index = ip.index(':')
+        print('正在读取ip地址：', ip[0:index])
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(3)
+            data = s.connect((ip[0:index], 80))
+            if data is None:
+                print('这应该是个正常的ip', ip)
+            else:print(data)
+        except ConnectionRefusedError:
+            ip_list.remove(ip)
+            print('连接有问题,有问题的ip是', ip)
+        except socket.timeout:
+            ip_list.remove(ip)
+            print('连接超时,超时的ip是', ip)
+    return ip_list
+
 
 if __name__ == '__main__':
     get_proxies_ip(r'http://www.goubanjia.com/free/index.shtml')
+    # get_ping()

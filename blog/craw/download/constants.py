@@ -1,6 +1,5 @@
 # coding:utf8
 import random
-from blog.craw.download import proxies_list
 
 def get_user_agent():
     return user_agent.__getitem__(random.randint(0, len(user_agent)-1))
@@ -40,7 +39,7 @@ headers = {
     "User-Agent": get_user_agent(),
 }
 def get_file_proxies():
-    file = open(r'C:\Users\admin\myblog\blog\craw\download\proxies_list.py', 'r')
+    file = open(r'C:\Users\admin\myblog\blog\craw\download\proxies_list.json', 'r')
     proxies_li = file.read()
     print(proxies_li.split())
     file.close()
