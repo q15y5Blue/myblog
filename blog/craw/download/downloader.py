@@ -3,13 +3,12 @@ import requests
 import random
 
 
-from blog.craw.download.constants import get_file_proxies
+from blog.craw.download.constants import get_proxies_list
+from blog.craw.download.proxies import Proxies
+from blog.craw.download.constants import get_headers
 
-from blog.craw.download.constants import headers
 
 class Downloader:
-    # using
-
     def download_html_by_url(self, url):
         return self.download_using_requests(url)
 
@@ -23,10 +22,9 @@ class Downloader:
 
     # url 是指要获取网页的url
     # http://travel.qunar.com/space/follow/list?userId=158928832
+    # proxies_url = 'http://www.goubanjia.com/free/index.shtml'
     def download_using_requests(self, url):
-        # proxies_url = 'http://www.goubanjia.com/free/index.shtml'
-        # proxies_list = get_proxies_ip(proxies_url)
-        proxies_list = get_file_proxies()
+        proxies_list = get_proxies_list()
         # 使用代理连接
         proxies_http = {
             'http': proxies_list.__getitem__(random.randint(0, len(proxies_list) - 1))
@@ -47,26 +45,14 @@ class Downloader:
 
 if __name__ == '__main__':
     url = "http://travel.qunar.com/space/follow/list?userId=158928832" # 待连接的url
-    proxies_url = 'http://www.goubanjia.com/free/index.shtml' # 代理url
-    proxies_list = get_file_proxies()
+    proxies_list = get_proxies_list()
+    proxie_obj = Proxies()
     proxies_http = {
-        'http': proxies_list.__getitem__(random.randint(0, len(proxies_list)-1))
+        'http': proxie_obj.get_random_proxie(),
     }
     proxies_https = {
-        'https': proxies_list.__getitem__(random.randint(0, len(proxies_list) - 1))
+        'https': proxie_obj.get_random_proxie(),
     }
-    headers = headers
-    try:
-        request = requests.get(url, headers=headers, proxies=proxies_http) # , proxies=proxies
-        print(request.status_code)
-        print(request.text)
-    except ConnectionError:
-        pass
-
-
-
-# if __name__ == '__main__':
-#     url = r'http://travel.qunar.com/space/follow/list?userId=158928832'
-#     down = Downloader()
-#     html = down.download_html_by_url(url)
-#     print(html)
+    headers = get_headers
+    down = Downloader()
+    down.download_using_requests(url)
