@@ -11,6 +11,7 @@ from blog.craw.download.constants import get_headers
 
 
 # url =http://www.goubanjia.com/free/index.shtml
+# 写proxies 到文件中
 def get_proxies_ip(url):
     t = requests.get(url, headers=get_headers)
     content = t.text
@@ -50,21 +51,7 @@ def get_proxies_ip(url):
 
 # 测试连通性
 def get_ping(ip_list):
-    # 测试五次
-    for i in range(0, 4):
-        print('连接次数', i)
-        for ip in ip_list:
-            index = ip.index(':')
-            print('正在读取ip地址：', ip[0:index])
-            try:
-                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                s.settimeout(3)
-                results = s.connect_ex((ip[0:index], int(ip[index+1:])))
-            except ConnectionRefusedError:
-                ip_list.remove(ip)
-            except socket.timeout:
-                ip_list.remove(ip)
-    print(ip_list)
+    # 这一步待解决
     return ip_list
 
 
@@ -78,5 +65,6 @@ class Proxies(object):
 
 
 if __name__ == '__main__':
-    pro = Proxies()
-    print(pro.get_random_proxie())
+    pass
+    # pro = Proxies()
+    # print(pro.get_random_proxie())

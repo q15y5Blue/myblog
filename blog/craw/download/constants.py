@@ -219,7 +219,7 @@ USER_AGENTS = [
 
 # 获取 json 文件中的 proxies 代理
 def get_file_proxies():
-    file = open(r'C:\Users\admin\myblog\blog\craw\download\proxies_list.json', 'r')
+    file = open(r'./proxies_list.json', 'r')
     proxies_li = file.read()
     list = json.loads(proxies_li)
     file.close()

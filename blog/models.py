@@ -9,7 +9,7 @@ class Persons(models.Model):
     describe = models.CharField(max_length=1000, default='user_describe')
     followings = models.TextField()
     fans = models.TextField()
-    followings_number = models.IntegerField(default='user_followings_numbers')# 关注人数
+    followings_number = models.IntegerField(default='user_followings_numbers') # 关注人数
     fans_number = models.IntegerField(default='user_fans_numbers')             # 粉丝人
     # 151310985, 158928832, 5931438
     portrait = models.CharField(default='portrait_url', max_length=1000)
