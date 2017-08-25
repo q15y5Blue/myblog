@@ -1,58 +1,58 @@
 # coding:utf8
 import requests
 from bs4 import BeautifulSoup
-from bs4.element import Tag
+from blog.craw.download.constants import get_headers
 import time
 import json
-import socket
 import random
+import re
+from bs4 import Tag
 
-from blog.craw.download.constants import get_headers
 
-
-# url =http://www.goubanjia.com/free/index.shtml
+# url = url = 'http://www.66ip.cn/'
 # 写proxies 到文件中
-def get_proxies_ip(url):
-    t = requests.get(url, headers=get_headers)
-    content = t.text
-    if content is not None:
-        soup = BeautifulSoup(content, "html.parser")
-        td_list = soup.find_all('td', 'ip')
-        final_ip = []
-        print(td_list)
-        for td_li in td_list:  # 对td单元格进行处理
-            list_before_done = []  # 处理之前的数
-            list_new = []         # 处理之后的IP
-            for li in td_li:
-                if type(li) == Tag:
-                    if li.prettify().__contains__('none') is False:
-                        list_before_done.append(li)
-                else:
-                    list_before_done.append(li)
-            for li in list_before_done:
-                if type(li) == Tag:
-                    list_new.append(li.text)
-                else:
-                    list_new.append(li)
-            final_ip.append(''.join(list_new))
-        time.sleep(1)
+def get_proxies_ip():
+    headers = {"User-Agent": 'Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_2; pt-br) AppleWebKit/525.13 (KHTML, like Gecko) Version/3.1 Safari/525.13',}
+    final_ip = []
+    for x in range(1, 1000):
+        url_s = 'http://www.66ip.cn/%s.html' % x
+        t = requests.get(url_s, headers=headers)
+        t.encoding = 'gb2312'
+        content = t.text
+        if content is not None:
+            soup = BeautifulSoup(content, "html.parser")
+            ip_table = soup.find('table', width='100%')
+            if ip_table is not None:
+                for ip_tr in ip_table:
+                    if ip_tr is not None and type(ip_tr) == Tag:
+                        ip_pos = re.search('\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}', ip_tr.prettify())
+                        ip_port = re.search('(?<=  )\d+(?=\n)', ip_tr.prettify())
+                        if ip_pos is not None and ip_port is not None:
+                            li_ip = ip_pos.group(0) + ':' + ip_port.group(0)
+                            print(li_ip)
+                            final_ip.append(li_ip)
+                            # print(ip_tr)
 
-        print('初始ip_list 长度:', len(final_ip))
-        final_ip = get_ping(ip_list=final_ip)
-        print('处理过后的ip_list 长度:', len(final_ip))
+    # 将list对象序列化为json文件
+    json_obj = json.dumps(final_ip)
+    print('json', json_obj)
+    file = open('./proxies_list.json', 'w+')
+    file.write(json_obj)
+    file.close()
+    return final_ip
 
-        json_obj = json.dumps(final_ip)
-        print('json', json_obj)
-        file = open('./proxies_list.json', 'w+')
-        file.write(json_obj)
-        file.close()
-
-        return final_ip
 
 # 测试连通性
-def get_ping(ip_list):
-    # 这一步待解决
-    return ip_list
+def get_ping():
+    file = open('./proxies_list.json', 'r+')
+    json_obj = json.loads(file.read())
+    print(len(json_obj))
+    for li_ip in json_obj:
+        dic = {'http': li_ip}
+        print(dic)
+        req = requests.get('http://www.baidu.com', headers=get_headers, proxies=dic)
+        print(req.status_code)
+    print(json_obj)
 
 
 class Proxies(object):
@@ -65,6 +65,8 @@ class Proxies(object):
 
 
 if __name__ == '__main__':
-    pass
+    # url = 'http://www.66ip.cn/'
+    # get_proxies_ip()
     # pro = Proxies()
     # print(pro.get_random_proxie())
+    get_ping()

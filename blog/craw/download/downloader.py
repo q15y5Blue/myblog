@@ -7,7 +7,7 @@ from blog.craw.download.constants import get_proxies_list
 from blog.craw.download.proxies import Proxies
 from blog.craw.download.constants import get_headers
 
-# <tTho&xjY2sp
+
 class Downloader:
     def download_html_by_url(self, url):
         return self.download_using_requests(url)
