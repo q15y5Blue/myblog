@@ -46,12 +46,16 @@ def get_proxies_ip():
 def get_ping():
     file = open('./proxies_list.json', 'r+')
     json_obj = json.loads(file.read())
-    print(len(json_obj))
+    print("原始ip地址长度", len(json_obj))
     for li_ip in json_obj:
         dic = {'http': li_ip}
-        print(dic)
-        req = requests.get('http://www.baidu.com', headers=get_headers, proxies=dic)
-        print(req.status_code)
+        try:
+            req = requests.get('https://www.sogou.com/', headers=get_headers, proxies=dic)
+            print('正在测试代理',dic)
+        except Exception:
+            print('连接出错了')
+            json_obj.remove(li_ip)
+    print(len(json_obj))
     print(json_obj)
 
 

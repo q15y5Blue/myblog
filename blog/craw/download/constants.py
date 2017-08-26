@@ -4,13 +4,14 @@ from random import choice
 import json
 
 
-#返回代理list
-def get_proxies_list():
+# 返回代理dict
+def get_proxies_dic():
     return get_file_proxies()
 
 
 def get_user_agent():
     return choice(USER_AGENTS)
+
 
 #user-agent
 USER_AGENTS = [
@@ -218,12 +219,14 @@ USER_AGENTS = [
 
 
 # 获取 json 文件中的 proxies 代理
+# return dic of proxies
 def get_file_proxies():
     file = open(r'./proxies_list.json', 'r')
     proxies_li = file.read()
     list = json.loads(proxies_li)
+    dic = {'http': choice(list)}
     file.close()
-    return list
+    return dic
 
 get_headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -237,4 +240,4 @@ get_headers = {
 # get_headers
 if __name__ == '__main__':
     # print(get_proxies_list())
-    print(get_headers)
+    print(get_file_proxies())

@@ -53,8 +53,8 @@ class Parser:
         per.identify = t
         try:
             print("这个人数据库中已经存在了")
-            Persons.objects.get(pk=per.identify)
-            return per
+            if Persons.objects.get(pk=per.identify) is not None:
+                return per
         except Persons.DoesNotExist:
             print("这个人还未收录")
             per.save()
