@@ -1,4 +1,4 @@
-# coding:utf8
+#coding:utf-8
 import requests
 from bs4 import BeautifulSoup
 from blog.craw.download.constants import get_headers
@@ -49,12 +49,9 @@ def get_ping():
     print("原始ip地址长度", len(json_obj))
     for li_ip in json_obj:
         dic = {'http': li_ip}
-        try:
-            req = requests.get('https://www.sogou.com/', headers=get_headers, proxies=dic)
-            print('正在测试代理',dic)
-        except Exception:
-            print('连接出错了')
-            json_obj.remove(li_ip)
+        print('正在测试代理', dic)
+        req = requests.get('https://www.qunar.com/', headers=get_headers, proxies=dic)
+        print(req)
     print(len(json_obj))
     print(json_obj)
 

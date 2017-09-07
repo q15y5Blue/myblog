@@ -233,7 +233,6 @@ get_headers = {
         "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "zh-CN,zh;q=0.8",
         "Connection": "keep-alive",
-        "Host": "www.goubanjia.com",
         "User-Agent": get_user_agent(),
     }
 
