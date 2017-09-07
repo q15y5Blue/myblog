@@ -2,7 +2,6 @@
 import requests
 from bs4 import BeautifulSoup
 from blog.craw.download.constants import get_headers
-import time
 import json
 import random
 import re

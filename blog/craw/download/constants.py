@@ -1,9 +1,12 @@
 # coding:utf8
-import random
+import os
 from random import choice
 import json
 
+def get_pwd():
+        return os.getcwd()
 
+print(get_pwd())
 # 返回代理dict
 def get_proxies_dic():
     return get_file_proxies()
