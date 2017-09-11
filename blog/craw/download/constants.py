@@ -1,7 +1,8 @@
 # coding:utf8
-import random
 from random import choice
 import json
+import os
+project_dir = os.path.dirname(os.path.abspath(__file__))
 
 
 # 返回代理dict
@@ -221,7 +222,7 @@ USER_AGENTS = [
 # 获取 json 文件中的 proxies 代理
 # return dic of proxies
 def get_file_proxies():
-    file = open(r'./proxies_list.json', 'r')
+    file = open(project_dir+'/proxies_list.json', 'r')
     proxies_li = file.read()
     list = json.loads(proxies_li)
     dic = {'http': choice(list)}
@@ -229,12 +230,9 @@ def get_file_proxies():
     return dic
 
 get_headers = {
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-CN,zh;q=0.8",
-        "Connection": "keep-alive",
-        "Host": "www.goubanjia.com",
         "User-Agent": get_user_agent(),
+        'Host': 'travel.qunar.com',
+        'Upgrade-Insecure-Requests': '1',
     }
 
 # get_headers

@@ -52,8 +52,8 @@ class Parser:
         t = re.search('(?<=userId\=)\d+', url).group(0)
         per.identify = t
         try:
-            print("这个人数据库中已经存在了")
             if Persons.objects.get(pk=per.identify) is not None:
+                print("这个人数据库中已经存在了")
                 return per
         except Persons.DoesNotExist:
             print("这个人还未收录")
@@ -89,4 +89,4 @@ class Parser:
 
 if __name__ == '__main__':
     par = Parser()
-    par.parse_data_followings('http://travel.qunar.com/space/follow/list?userId=158928832@qunar?page=1')
+    par.parse_data_followings('https://travel.qunar.com/space/follow/list?userId=158928832')

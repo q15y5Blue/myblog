@@ -4,7 +4,6 @@ import random
 
 
 from blog.craw.download.constants import get_proxies_dic
-from blog.craw.download.proxies import Proxies
 from blog.craw.download.constants import get_headers
 
 
@@ -25,15 +24,15 @@ class Downloader:
     # proxies_url = 'http://www.goubanjia.com/free/index.shtml'
     def download_using_requests(self, url):
         proxies_dic = get_proxies_dic()
-        request = requests.get(url, headers=headers, proxies=proxies_dic)  # , proxies=proxies
-        return request
+        print(proxies_dic)
+        request = requests.get(url, headers=get_headers, proxies=proxies_dic)  # , proxies=proxies
+        if request.text is not None or request.text.__contains__('') is not True and request.status_code == 200:
+            return request.text
 
-
-if __name__ == '__main__':
-    # url = "http://travel.qunar.com/space/follow/list?userId=158928832" # 待连接的url
-    url = 'http://www.sogou.com'
-    proxies_dic = get_proxies_dic()
-    headers = get_headers
-    down = Downloader()
-    req = down.download_using_requests(url)
-    print(req.text)
+#
+# if __name__ == '__main__':
+#     url = "https://travel.qunar.com/space/follow/list?userId=158928832" # 待连接的url
+#     # url = 'https://www.sogou.com'
+#     down = Downloader()
+#     req = down.download_using_requests(url)
+#     print(req.text)

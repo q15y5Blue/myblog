@@ -30,4 +30,3 @@ if __name__ == '__main__':
     root_url = """http://travel.qunar.com/space/follow/list?userId=158928832"""
     spider = Execute()
     spider.execute(root_url)
-
